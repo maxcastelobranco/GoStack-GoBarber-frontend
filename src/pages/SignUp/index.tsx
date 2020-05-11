@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Faça seu Cadastro</h1>
-          <Input name="name" placeholder="Nome" icon={FiUser} />
+          <Input name="name" placeholder="Nome" icon={FiUser} autoFocus />
           <Input name="email" placeholder="E-mail" icon={FiMail} />
           <Input
             name="password"

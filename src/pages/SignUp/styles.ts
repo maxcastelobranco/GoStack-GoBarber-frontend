@@ -27,7 +27,7 @@ export const Content = styled.div`
   align-items: center;
   width: 100%;
   max-width: 700px;
-  animation: ${appearFromRight} 1s;
+  animation: ${appearFromRight} 1s ease;
 
   form {
     margin: 80px 0;

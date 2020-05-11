@@ -29,9 +29,7 @@ const SignIn: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('Email é obrigatório'),
+          email: Yup.string().email('Digite um e-mail válido').required('Email é obrigatório'),
           password: Yup.string().required('Senha obrigatória'),
         });
 
@@ -55,8 +53,7 @@ const SignIn: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro na autenticação.',
-          description:
-            'Ocorreu um erro ao realizar o login, cheque suas credenciais.',
+          description: 'Ocorreu um erro ao realizar o login, cheque suas credenciais.',
         });
       }
     },
@@ -70,13 +67,8 @@ const SignIn: React.FC = () => {
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Faça seu logon</h1>
-          <Input name="email" placeholder="E-mail" icon={FiMail} />
-          <Input
-            name="password"
-            type="password"
-            placeholder="Senha"
-            icon={FiLock}
-          />
+          <Input name="email" placeholder="E-mail" icon={FiMail} autoFocus />
+          <Input name="password" type="password" placeholder="Senha" icon={FiLock} />
           <Button type="submit">Entrar</Button>
           <a href="/">Esqueci minha senha</a>
         </Form>

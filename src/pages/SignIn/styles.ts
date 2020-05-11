@@ -29,7 +29,7 @@ export const Content = styled.div`
   width: 100%;
   max-width: 700px;
 
-  animation: ${appearFromLeft} 1s;
+  animation: ${appearFromLeft} 1s ease;
 
   form {
     margin: 80px 0;

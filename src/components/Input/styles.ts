@@ -9,7 +9,7 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   background: #232129;
-  padding: 16px;
+  padding: 8px;
   border-radius: 10px;
   border: 2px solid #232129;
   width: 100%;
@@ -44,6 +44,7 @@ export const Container = styled.div<ContainerProps>`
 
   input {
     flex: 1;
+    padding: 8px;
     background: transparent;
     border: 0;
     color: #f4ede8;
