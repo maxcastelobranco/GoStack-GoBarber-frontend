@@ -50,7 +50,8 @@
         {
           "allowExpressions": true
         }
-      ]
+      ],
+      "@typescript-eslint/camelcase": "off"
     },
   "settings": {
     "import/resolver": {
