@@ -51,7 +51,9 @@
           "allowExpressions": true
         }
       ],
-      "@typescript-eslint/camelcase": "off"
+      "@typescript-eslint/camelcase": "off",
+      "react/jsx-one-expression-per-line": "off",
+      "import/no-duplicates": "off"
     },
   "settings": {
     "import/resolver": {

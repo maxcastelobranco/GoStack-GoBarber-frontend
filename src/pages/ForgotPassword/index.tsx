@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FormHandles } from '@unform/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
 import { FiLogIn, FiMail } from 'react-icons/fi';
@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const history = useHistory();
+  // const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: ForgotPasswordFormData): Promise<void> => {
@@ -48,7 +48,7 @@ const ForgotPassword: React.FC = () => {
           description: 'Cheque sua caixa de entrada e recupere sua senha.',
         });
 
-        // history.push('/dashboard');
+        // history.push('/dashboard'); ??
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);

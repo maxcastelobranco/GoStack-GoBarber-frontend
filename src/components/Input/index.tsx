@@ -38,6 +38,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
       {Icon && <Icon size={20} />}
       <input
         ref={inputRef}
+        name={name}
         defaultValue={defaultValue}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
