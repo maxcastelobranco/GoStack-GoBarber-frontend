@@ -27,6 +27,7 @@ interface Appointment {
   id: string;
   date: string;
   formattedHour: string;
+  finished: boolean;
   user: {
     name: string;
     avatar_url: string;
@@ -64,9 +65,12 @@ const Dashboard: React.FC = () => {
       })
       .then(({ data }) => {
         const formattedAppointments = data.map(appointment => {
+          const parsedDate = parseISO(appointment.date);
+          const now = new Date();
           return {
             ...appointment,
-            formattedHour: format(parseISO(appointment.date), 'HH:mm'),
+            formattedHour: format(parsedDate, 'HH:mm'),
+            finished: isToday(parsedDate) && now.getHours() > parsedDate.getHours(),
           };
         });
 
@@ -161,7 +165,7 @@ const Dashboard: React.FC = () => {
             <strong>Manhã</strong>
             {morningAppointments.length === 0 && <p>¯\_(ツ)_/¯ Nenhum agendamento de manhã.</p>}
             {morningAppointments.map(appointment => (
-              <Appointment key={appointment.id}>
+              <Appointment key={appointment.id} finished={appointment.finished}>
                 <span>
                   <FiClock />
                   {appointment.formattedHour}
@@ -178,7 +182,7 @@ const Dashboard: React.FC = () => {
             <strong>Tarde</strong>
             {morningAppointments.length === 0 && <p>¯\_(ツ)_/¯ Nenhum agendamento à tarde.</p>}
             {afternoonAppointments.map(appointment => (
-              <Appointment key={appointment.id}>
+              <Appointment key={appointment.id} finished={appointment.finished}>
                 <span>
                   <FiClock />
                   {appointment.formattedHour}

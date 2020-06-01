@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
 import arrowRight from '../../assets/arrow-right.svg';
 import arrowLeft from '../../assets/arrow-left.svg';
+
+interface AppointmentProps {
+  finished: boolean;
+}
 
 export const Container = styled.div``;
 
@@ -109,7 +113,7 @@ export const Section = styled.section`
   }
 `;
 
-export const Appointment = styled.div`
+export const Appointment = styled.div<AppointmentProps>`
   display: flex;
   align-items: center;
 
@@ -153,6 +157,20 @@ export const Appointment = styled.div`
       font-size: 20px;
     }
   }
+
+  ${props =>
+    props.finished &&
+    css`
+      opacity: 0.6;
+
+      span {
+        text-decoration: line-through;
+      }
+
+      div {
+        text-decoration: line-through;
+      }
+    `}
 `;
 
 export const Calendar = styled.aside`
