@@ -35,27 +35,14 @@ const AuthProvider: React.FC = ({ children }) => {
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
 
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      setupInvalidateSessionInterceptor();
+
       return { token, user: JSON.parse(user) };
     }
 
     return {} as AuthState;
   });
-
-  const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
-      email,
-      password,
-    });
-
-    const { token, user } = response.data;
-
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
-
-    api.defaults.headers.authorization = `Bearer ${token}`;
-
-    setData({ token, user });
-  }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@GoBarber:token');
@@ -63,6 +50,41 @@ const AuthProvider: React.FC = ({ children }) => {
 
     setData({} as AuthState);
   }, []);
+  const setupInvalidateSessionInterceptor = useCallback(async () => {
+    api.interceptors.response.use(
+      response => {
+        return response;
+      },
+      error => {
+        const { response } = error;
+
+        if (response.data.message === 'Invalid JWT token') {
+          signOut();
+        }
+
+        return Promise.reject(error);
+      },
+    );
+  }, [signOut]);
+  const signIn = useCallback(
+    async ({ email, password }) => {
+      const response = await api.post('sessions', {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      localStorage.setItem('@GoBarber:token', token);
+      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
+      setupInvalidateSessionInterceptor();
+      setData({ token, user });
+    },
+    [setupInvalidateSessionInterceptor],
+  );
 
   const updateUser = useCallback(
     (user: User) => {
