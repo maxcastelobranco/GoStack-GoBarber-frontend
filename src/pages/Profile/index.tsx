@@ -159,7 +159,7 @@ const Profile: React.FC = () => {
             placeholder="Confirmar senha"
             icon={FiLock}
           />
-          <Button type="submit">Cadastrar</Button>
+          <Button type="submit">Confirmar mudanças</Button>
         </Form>
       </Content>
     </Container>

@@ -34,9 +34,23 @@ const AuthProvider: React.FC = ({ children }) => {
 
     if (token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
+      api.interceptors.response.use(
+        response => {
+          return response;
+        },
+        error => {
+          const { response } = error;
 
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      setupInvalidateSessionInterceptor();
+          if (response.data.message === 'Invalid JWT token') {
+            localStorage.removeItem('@GoBarber:token');
+            localStorage.removeItem('@GoBarber:user');
+
+            return {} as AuthState;
+          }
+
+          return Promise.reject(error);
+        },
+      );
 
       return { token, user: JSON.parse(user) };
     }
@@ -59,13 +73,16 @@ const AuthProvider: React.FC = ({ children }) => {
         const { response } = error;
 
         if (response.data.message === 'Invalid JWT token') {
-          signOut();
+          localStorage.removeItem('@GoBarber:token');
+          localStorage.removeItem('@GoBarber:user');
+
+          setData({} as AuthState);
         }
 
         return Promise.reject(error);
       },
     );
-  }, [signOut]);
+  }, []);
   const signIn = useCallback(
     async ({ email, password }) => {
       const response = await api.post('sessions', {
@@ -80,7 +97,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      setupInvalidateSessionInterceptor();
+      await setupInvalidateSessionInterceptor();
       setData({ token, user });
     },
     [setupInvalidateSessionInterceptor],
